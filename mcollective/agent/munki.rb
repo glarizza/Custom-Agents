@@ -10,48 +10,60 @@ module MCollective
                :timeout     => 400
 
       action 'check_updates' do
-        @updates = []
-        out = []
-        status = run('/usr/local/munki/managedsoftwareupdate --checkonly', :stdout => out, :stderr => :errors)
-        out[0].each do |line|
-          puts line
-          line.lstrip!
-          if line =~ /^\+/
-            @updates << line.split("\s")[1].chomp
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          @updates = []
+          out = []
+          status = run('/usr/local/munki/managedsoftwareupdate --checkonly', :stdout => out, :stderr => :errors)
+          out[0].each do |line|
+            puts line
+            line.lstrip!
+            if line =~ /^\+/
+              @updates << line.split("\s")[1].chomp
+            end
           end
-        end
 
-        unless @updates.empty?
-          reply[:output] = @updates.sort
+          unless @updates.empty?
+            reply[:output] = @updates.sort
+          else
+            reply[:output] = "No Updates Available: #{out.size}"
+          end
         else
-          reply[:output] = "No Updates Available: #{out.size}"
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
         end
       end
 
       action 'check_updates_with_id' do
-        @updates = []
-        out = []
-        status = run("/usr/local/munki/managedsoftwareupdate --checkonly --id=#{request[:id]}", :stdout => out, :stderr => :errors)
-        out[0].each do |line|
-          puts line
-          line.lstrip!
-          if line =~ /^\+/ and not @the_error
-            @updates << line.split("\s")[1].chomp
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          @updates = []
+          out = []
+          status = run("/usr/local/munki/managedsoftwareupdate --checkonly --id=#{request[:id]}", :stdout => out, :stderr => :errors)
+          out[0].each do |line|
+            puts line
+            line.lstrip!
+            if line =~ /^\+/ and not @the_error
+              @updates << line.split("\s")[1].chomp
+            end
           end
-        end
 
-        unless @updates.empty?
-          reply[:output] = @updates.sort
+          unless @updates.empty?
+            reply[:output] = @updates.sort
+          else
+            reply[:output] = "No Updates Available: #{out.size}"
+          end
         else
-          reply[:output] = "No Updates Available: #{out.size}"
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
         end
       end
 
       action 'auto_run' do
-        out = []
-        status = run('/usr/local/munki/managedsoftwareupdate --auto', :stdout => out, :stderr => :errors)
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          out = []
+          status = run('/usr/local/munki/managedsoftwareupdate --auto', :stdout => out, :stderr => :errors)
 
-        reply[:output] = "Run of 'managedsoftwareupdate --auto' has completed'"
+          reply[:output] = "Run of 'managedsoftwareupdate --auto' has completed'"
+        else
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
+        end
       end
 
       action 'list_cache' do
