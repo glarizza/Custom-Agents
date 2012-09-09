@@ -61,6 +61,14 @@ module MCollective
           reply[:output] = 'The /Library/Managed Installs/Cache directory does not exist'
         end
       end
+
+      action 'install_only' do
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          run('/usr/local/munki/managedsoftwareupdate --installonly', :stdout => :output, :stderr => :errors)
+        else
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
+        end
+      end
     end
   end
 end

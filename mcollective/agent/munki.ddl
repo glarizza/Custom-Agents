@@ -61,3 +61,16 @@ action "list_cache", :description => "Lists all files in the Munki Cache directo
          :description => "Errors thrown by managedsoftwareupdate",
          :display_as  => "Command Errors"
 end
+
+action "install_only", :description => "Performs a 'managedsoftwareupdate --installonly' run that forces package installs silently." do
+  display :always
+
+  output :output,
+         :description => "Command Output",
+         :display_as  => "Response"
+
+  output :errors,
+         :description => "Errors thrown by managedsoftwareupdate",
+         :display_as  => "Command Errors"
+end
+
