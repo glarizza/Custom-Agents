@@ -81,6 +81,22 @@ module MCollective
           reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
         end
       end
+
+      action 'apple_sus_packages_only' do
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          run('/usr/local/munki/managedsoftwareupdate --applesuspkgsonly', :stdout => :output, :stderr => :errors)
+        else
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
+        end
+      end
+
+      action 'munki_packages_only' do
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          run('/usr/local/munki/managedsoftwareupdate --munkipkgsonly', :stdout => :output, :stderr => :errors)
+        else
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
+        end
+      end
     end
   end
 end

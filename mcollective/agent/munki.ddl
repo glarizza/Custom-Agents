@@ -74,3 +74,27 @@ action "install_only", :description => "Performs a 'managedsoftwareupdate --inst
          :display_as  => "Command Errors"
 end
 
+action "apple_sus_packages_only", :description => "Performs a 'managedsoftwareupdate --applesuspkgsonly' run that only installs any available Apple Software Update packages." do
+  display :always
+
+  output :output,
+         :description => "Command Output",
+         :display_as  => "Response"
+
+  output :errors,
+         :description => "Errors thrown by managedsoftwareupdate",
+         :display_as  => "Command Errors"
+end
+
+action "munki_packages_only", :description => "Performs a 'managedsoftwareupdate --munkipkgsonly' run that only installs any available Munki-enforced packages (i.e. NOT Apple Software Update packages)." do
+  display :always
+
+  output :output,
+         :description => "Command Output",
+         :display_as  => "Response"
+
+  output :errors,
+         :description => "Errors thrown by managedsoftwareupdate",
+         :display_as  => "Command Errors"
+end
+
