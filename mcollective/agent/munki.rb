@@ -97,6 +97,14 @@ module MCollective
           reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
         end
       end
+
+      action 'version' do
+        if File.exists?('/usr/local/munki/managedsoftwareupdate')
+          run('/usr/local/munki/managedsoftwareupdate --version', :stdout => :output, :stderr => :errors)
+        else
+          reply[:output] = "/usr/local/munki/managedsoftwareupdate does not exist. Exiting..."
+        end
+      end
     end
   end
 end

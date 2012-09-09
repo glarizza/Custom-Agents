@@ -98,3 +98,15 @@ action "munki_packages_only", :description => "Performs a 'managedsoftwareupdate
          :display_as  => "Command Errors"
 end
 
+action "version", :description => "Returns the currently-installed version of Munki." do
+  display :always
+
+  output :output,
+         :description => "Munki Version",
+         :display_as  => "Version"
+
+  output :errors,
+         :description => "Errors thrown by managedsoftwareupdate",
+         :display_as  => "Command Errors"
+end
+
