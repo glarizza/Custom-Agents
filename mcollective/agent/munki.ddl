@@ -110,3 +110,28 @@ action "version", :description => "Returns the currently-installed version of Mu
          :display_as  => "Command Errors"
 end
 
+action "settings", :description => "Returns the contents of /Library/Preferences/ManagedInstalls.plist" do
+  display :always
+
+  output :output,
+         :description => "Munki Settings",
+         :display_as  => "Config Settings"
+end
+
+action "application_search_by_name", :description => "Searches through '/Library/Managed Installs/ApplicationInventory.plist' to find an Application whose name matches the passed value." do
+  display :always
+
+  output :output,
+         :description => "Application Data",
+         :display_as  => "Application Data"
+
+  input :name,
+        :prompt      => "Application Name",
+        :description => "The name (case insensitive) of the application you wish to find in the ApplicationInventory.plist file.",
+        :optional    => false,
+        :type        => :string,
+  	    :validation  => '(.*?)',
+        :maxlength   => 230
+end
+
+
