@@ -12,6 +12,10 @@ action "list", :description => "Lists current printers on the system" do
   output :output,
          :description => "Current Printers",
          :display_as  => "Printers"
+
+  output :errors,
+         :description => "Error Messages",
+         :display_as  => "Errors"
 end
 
 action "add", :description => "Adds a printer to the system" do
