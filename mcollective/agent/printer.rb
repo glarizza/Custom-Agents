@@ -32,18 +32,20 @@ module MCollective
 
         list = []
         run("lpstat -a | cut -d ' ' -f 1", :stdout => list, :stderr => :errors)
-        printerarray = list.first.split
+        printerarray = list.first.split unless list.empty?
 
-        reply.fail! "Printer already installed on the system." if printerarray.include? request[:printer]
+        unless printerarray.nil?
+          reply.fail! "Printer already installed on the system." if printerarray.include? request[:printer]
+        end
 
         args = 'lpadmin '
-        args << "-p #{request[:printer]} " if request[:printer]
-        args << "-v #{request[:address]} " if request[:address]
+        args << "-p '#{request[:printer]}' " if request[:printer]
+        args << "-v '#{request[:address]}' " if request[:address]
 
         validate :location, :shellsafe and
-          args << "-L #{request[:location]} " if request[:location]
+          args << "-L '#{request[:location]}' " if request[:location]
         validate :driver, :shellsafe and
-          args << "-P #{request[:driver]} " if request[:driver]
+          args << "-P '#{request[:driver]}' " if request[:driver]
         args << "-E "
 
         # Run the command created from above
@@ -52,7 +54,7 @@ module MCollective
         # Update the list of printers
         list = []
         run("lpstat -a | cut -d ' ' -f 1", :stdout => list)
-        printerarray = list.first.split
+        printerarray = list.first.split unless list.empty?
 
         if printerarray.include? request[:printer]
           reply[:output] = "Printer #{request[:printer]} successfully installed on the system."
