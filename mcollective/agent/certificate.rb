@@ -20,9 +20,9 @@ module MCollective
         reply[:private_key_dir] = private_key_dir
         reply[:certificate_dir] = certificate_dir
 
-        run("/usr/bin/openssl pkcs12 -in #{certificate_file}.pfx -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => reply[:cmd_1_out], :stderr => reply[:cmd_1_err])
-        run("/usr/bin/openssl pkcs12 -in #{certificate_file}.pfx -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => reply[:cmd_2_out], :stderr => reply[:cmd_2_err])
-        run("/usr/bin/openssl pkcs12 -in #{certificate_file}.pfx -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys", :stdout => reply[:cmd_3_out], :stderr => reply[:cmd_3_err])
+        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => reply[:cmd_1_out], :stderr => reply[:cmd_1_err])
+        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => reply[:cmd_2_out], :stderr => reply[:cmd_2_err])
+        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys", :stdout => reply[:cmd_3_out], :stderr => reply[:cmd_3_err])
       end
     end
   end
