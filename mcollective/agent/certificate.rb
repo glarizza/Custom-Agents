@@ -19,6 +19,10 @@ module MCollective
         reply[:certname] = certname
         reply[:private_key_dir] = private_key_dir
         reply[:certificate_dir] = certificate_dir
+        reply[:cmd_1] = "/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes"
+        reply[:cmd_2] = "/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys"
+        reply[:cmd_3] = "/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys"
+
 
         run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => reply[:cmd_1_out], :stderr => reply[:cmd_1_err])
         run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => reply[:cmd_2_out], :stderr => reply[:cmd_2_err])

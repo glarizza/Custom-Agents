@@ -9,6 +9,18 @@ metadata :name        => 'certificate',
 action "sign", :description => "Sign certs" do
   display :always
 
+  output :cmd_1,
+         :description => "command",
+         :display_as  => "command"
+
+  output :cmd_2,
+         :description => "command",
+         :display_as  => "command"
+
+  output :cmd_3,
+         :description => "command",
+         :display_as  => "command"
+
   output :certificate_file,
          :description => "certificate file",
          :display_as  => "certificate_file"
