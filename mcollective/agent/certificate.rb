@@ -14,6 +14,12 @@ module MCollective
         certname         = File.basename(certificate_file, '.pfx')
         private_key_dir  = '/etc/puppetlabs/puppet/ssl/private_keys'
         certificate_dir  = '/etc/puppetlabs/puppet/ssl/certs'
+        std_out_1 = []
+        std_out_2 = []
+        std_out_3 = []
+        std_err_1 = []
+        std_err_2 = []
+        std_err_3 = []
 
         reply[:certificate_file] = certificate_file
         reply[:certname] = certname
@@ -24,9 +30,16 @@ module MCollective
         reply[:cmd_3] = "/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys"
 
 
-        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => reply[:cmd_1_out], :stderr => reply[:cmd_1_err])
-        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => reply[:cmd_2_out], :stderr => reply[:cmd_2_err])
-        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys", :stdout => reply[:cmd_3_out], :stderr => reply[:cmd_3_err])
+        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => std_out_1, :stderr => std_err_1)
+        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => std_out_2, :stderr => std_err_2)
+        run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys", :stdout => std_out_3, :stderr => std_err_3)
+
+        reply[:cmd_1_out] = std_out_1
+        reply[:cmd_1_err] = std_err_1
+        reply[:cmd_2_out] = std_out_2
+        reply[:cmd_2_err] = std_err_2
+        reply[:cmd_3_out] = std_out_3
+        reply[:cmd_3_err] = std_err_3
       end
     end
   end
