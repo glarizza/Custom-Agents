@@ -61,6 +61,14 @@ action "sign", :description => "Sign certs" do
          :description => "cmd 3 err",
          :display_as  => "cmd_3_err"
 
+  output :cmd_4_out,
+         :description => "cmd 4 out",
+         :display_as  => "cmd_4_out"
+
+  output :cmd_4_err,
+         :description => "cmd 4 err",
+         :display_as  => "cmd_4_err"
+
   input :filename,
         :prompt      => "Certificate Filename",
         :description => "Certificate Filename",
