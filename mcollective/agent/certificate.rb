@@ -15,9 +15,9 @@ module MCollective
         private_key_dir  = '/etc/puppetlabs/puppet/ssl/private_keys'
         certificate_dir  = '/etc/puppetlabs/puppet/ssl/certs'
 
-        run("openssl pkcs12 -in #{certname}.pfx -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes")
-        run("openssl pkcs12 -in #{certname}.pfx -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys")
-        run("openssl pkcs12 -in #{certname}.pfx -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys")
+        run("openssl pkcs12 -in #{certname}.pfx -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => reply[:cmd_1_out], :stderr => reply[:cmd_1_err])
+        run("openssl pkcs12 -in #{certname}.pfx -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => reply[:cmd_2_out], :stderr => reply[:cmd_2_err])
+        run("openssl pkcs12 -in #{certname}.pfx -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys", :stdout => reply[:cmd_3_out], :stderr => reply[:cmd_3_err])
       end
     end
   end
