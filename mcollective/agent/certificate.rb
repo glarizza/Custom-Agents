@@ -36,7 +36,7 @@ module MCollective
         run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{private_key_dir}/#{certname}.key.pem -nocerts -nodes", :stdout => std_out_1, :stderr => std_err_1)
         run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/#{certname}.crt.pem -clcerts -nodes -nokeys", :stdout => std_out_2, :stderr => std_err_2)
         run("/usr/bin/openssl pkcs12 -in #{certificate_file} -passin pass:#{certname} -out #{certificate_dir}/ca.pem -cacerts -nodes -nokeys", :stdout => std_out_3, :stderr => std_err_3)
-        run("/usr/bin/openssl rsa -in #{certificate_dir}/#{certname}.key.pem -out #{public_key_dir}/#{certname}.pem -pubout", :stdout => std_out_4, :stderr => std_err_4)
+        run("/usr/bin/openssl rsa -in #{private_key_dir}/#{certname}.key.pem -out #{public_key_dir}/#{certname}.pem -pubout", :stdout => std_out_4, :stderr => std_err_4)
 
         reply[:cmd_1_out] = std_out_1
         reply[:cmd_1_err] = std_err_1
